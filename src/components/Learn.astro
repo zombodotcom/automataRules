@@ -1,0 +1,123 @@
+---
+import { RULE_CLASSES, ruleToBinary } from '../lib/automata-engine';
+---
+
+<section id="learn" class="relative py-24 px-6 max-w-4xl mx-auto">
+  <h2 class="text-3xl md:text-4xl font-black text-white text-center mb-3">
+    How It Works
+  </h2>
+  <p class="text-gray-400 text-center mb-16 max-w-xl mx-auto">
+    Complex patterns from the simplest possible rules.
+  </p>
+
+  <div class="space-y-16">
+
+    <!-- The Rule -->
+    <div>
+      <h3 class="text-xl font-bold text-white mb-4">The 3-Cell Neighborhood</h3>
+      <p class="text-gray-300 leading-relaxed mb-6">
+        An elementary cellular automaton is a row of cells, each either <strong class="text-white">on</strong> or <strong class="text-white">off</strong>.
+        To compute the next generation, each cell looks at itself and its two neighbors — three cells total.
+        With two possible states per cell, there are 2<sup>3</sup> = <strong class="text-white">8 possible patterns</strong>.
+      </p>
+      <p class="text-gray-300 leading-relaxed mb-6">
+        A <strong class="text-white">rule number</strong> (0–255) is just an 8-bit binary number that encodes what each pattern produces.
+        For example, Rule 30 in binary is <code class="font-mono text-purple-400 bg-purple-500/10 px-1 rounded">00011110</code>.
+        Each bit maps to one of the 8 possible 3-cell inputs:
+      </p>
+
+      <!-- Rule diagram -->
+      <div class="bg-white/[0.05] border border-white/10 rounded-xl p-6 font-mono text-sm">
+        <div class="grid grid-cols-8 gap-2 text-center">
+          {['111', '110', '101', '100', '011', '010', '001', '000'].map((pattern, i) => (
+            <div class="space-y-2">
+              <div class="text-gray-400 text-[10px]">{pattern}</div>
+              <div class="flex justify-center gap-px">
+                {pattern.split('').map((bit) => (
+                  <div class={`w-4 h-4 rounded-sm ${bit === '1' ? 'bg-purple-500' : 'bg-gray-800 border border-gray-700'}`}></div>
+                ))}
+              </div>
+              <div class="text-[10px] text-gray-600">↓</div>
+              <div class={`w-4 h-4 rounded-sm mx-auto ${ruleToBinary(30)[i] === '1' ? 'bg-amber-400' : 'bg-gray-800 border border-gray-700'}`}></div>
+              <div class="text-[10px] text-gray-500">{ruleToBinary(30)[i]}</div>
+            </div>
+          ))}
+        </div>
+        <p class="text-center text-gray-500 text-[11px] mt-4">
+          Rule 30: inputs map to outputs via binary <span class="text-purple-400">00011110</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- Wolfram's 4 Classes -->
+    <div>
+      <h3 class="text-xl font-bold text-white mb-4">Wolfram's Four Classes</h3>
+      <p class="text-gray-300 leading-relaxed mb-6">
+        Stephen Wolfram classified all 256 elementary rules into four behavioral classes:
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {Object.entries(RULE_CLASSES).map(([key, cls]) => (
+          <div class="bg-white/[0.05] border border-white/10 rounded-xl p-4">
+            <h4 class="text-white font-bold mb-1">{cls.label}</h4>
+            <p class="text-gray-400 text-sm mb-2">{cls.description}</p>
+            <div class="flex flex-wrap gap-1">
+              {cls.examples.map((r) => (
+                <button data-load-rule={r}
+                  class="text-[10px] font-mono text-purple-400 bg-purple-500/10 px-1.5 py-0.5 rounded hover:bg-purple-500/20 transition-colors cursor-pointer">
+                  Rule {r}
+                </button>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Why It Matters -->
+    <div>
+      <h3 class="text-xl font-bold text-white mb-4">Why It Matters</h3>
+      <div class="space-y-4 text-gray-300 leading-relaxed">
+        <p>
+          <strong class="text-white">Rule 110 is Turing complete.</strong> Matthew Cook proved in 2004 that this single,
+          simple rule can simulate any computation a general-purpose computer can perform. Complexity doesn't require
+          complex ingredients.
+        </p>
+        <p>
+          <strong class="text-white">Rule 30 generates randomness.</strong> Wolfram's Mathematica used Rule 30 as a
+          pseudorandom number generator. A deterministic process producing output indistinguishable from randomness.
+        </p>
+        <p>
+          <strong class="text-white">Simple rules, emergent complexity.</strong> Cellular automata demonstrate that
+          elaborate, unpredictable behavior can emerge from the simplest possible foundations — a philosophical insight
+          that reaches into physics, biology, and computation theory.
+        </p>
+      </div>
+    </div>
+
+    <!-- Further Reading -->
+    <div>
+      <h3 class="text-xl font-bold text-white mb-4">Further Reading</h3>
+      <ul class="space-y-2">
+        <li>
+          <a href="https://plato.stanford.edu/entries/cellular-automata/" target="_blank" rel="noopener noreferrer"
+            class="text-purple-400 hover:text-purple-300 transition-colors">
+            Stanford Encyclopedia of Philosophy — Cellular Automata ↗
+          </a>
+        </li>
+        <li>
+          <a href="https://mathworld.wolfram.com/ElementaryCellularAutomaton.html" target="_blank" rel="noopener noreferrer"
+            class="text-purple-400 hover:text-purple-300 transition-colors">
+            Wolfram MathWorld — Elementary Cellular Automaton ↗
+          </a>
+        </li>
+        <li>
+          <a href="https://www.wolframscience.com/nks/" target="_blank" rel="noopener noreferrer"
+            class="text-purple-400 hover:text-purple-300 transition-colors">
+            A New Kind of Science (NKS Online) ↗
+          </a>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</section>
