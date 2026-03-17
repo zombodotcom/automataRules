@@ -58,7 +58,7 @@ export function initPlayground(canvas: HTMLCanvasElement, controlsContainer: HTM
   function resize() {
     const container = canvas.parentElement!;
     const cw = container.offsetWidth;
-    const ch = Math.min(600, Math.floor(cw * 0.6));
+    const ch = Math.min(Math.floor(window.innerHeight * 0.7), Math.floor(cw * 0.5));
     W = Math.floor(cw / cellSize);
     H = Math.floor(ch / cellSize);
     canvas.width = W;

@@ -91,9 +91,18 @@ export function renderThumbnail(
   ctx.fillStyle = '#000';
   ctx.fillRect(0, 0, width, height);
 
+  // Use scaled hue multipliers so small thumbnails span the full rainbow
+  const hueScaleY = 360 / height;
+  const hueScaleX = 180 / width;
   let row = initRow(rule, width);
   for (let y = 0; y < height; y++) {
-    renderRow(ctx, row, y, 70, 55);
+    for (let x = 0; x < width; x++) {
+      if (row[x]) {
+        const hue = (y * hueScaleY + x * hueScaleX) % 360;
+        ctx.fillStyle = `hsl(${hue}, 70%, 55%)`;
+        ctx.fillRect(x, y, 1, 1);
+      }
+    }
     row = nextRow(rule, row);
   }
 }

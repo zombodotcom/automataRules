@@ -1,64 +1,75 @@
 ---
 ---
 
-<section id="playground" class="relative py-24 px-6 max-w-6xl mx-auto">
-  <h2 class="text-3xl md:text-4xl font-black text-white text-center mb-3">
-    Playground
-  </h2>
-  <p class="text-gray-400 text-center mb-12 max-w-xl mx-auto">
-    Pick any rule from 0–255, tweak the settings, and watch patterns emerge.
-  </p>
+<section id="playground" class="relative py-24">
+  <div class="px-6 max-w-4xl mx-auto mb-8">
+    <h2 class="text-3xl md:text-4xl font-black text-white text-center mb-3">
+      Playground
+    </h2>
+    <p class="text-gray-400 text-center max-w-xl mx-auto">
+      Pick any rule from 0–255, tweak the settings, and watch patterns emerge.
+    </p>
+  </div>
 
-  <div class="flex flex-col lg:flex-row gap-8">
-    <!-- Canvas -->
-    <div class="flex-1 min-w-0">
-      <div class="relative bg-black rounded-xl overflow-hidden border border-white/10">
-        <canvas id="pg-canvas" class="w-full cursor-crosshair" style="image-rendering: pixelated;"></canvas>
-      </div>
+  <!-- Full-width canvas -->
+  <div class="w-full">
+    <div class="relative bg-black overflow-hidden border-y border-white/10">
+      <canvas id="pg-canvas" class="w-full cursor-crosshair" style="image-rendering: pixelated;"></canvas>
     </div>
+  </div>
 
-    <!-- Controls panel -->
-    <div id="pg-controls" class="lg:w-80 space-y-6">
+  <!-- Controls bar below canvas -->
+  <div id="pg-controls" class="px-6 max-w-7xl mx-auto mt-6">
 
-      <!-- Rule picker -->
-      <div class="bg-white/[0.05] border border-white/10 rounded-xl p-4">
-        <div class="flex items-baseline justify-between mb-3">
-          <span id="pg-rule-display" class="text-white font-bold font-mono text-xl">Rule 30</span>
-          <span id="pg-binary-display" class="text-[10px] font-mono text-gray-500">00011110</span>
-        </div>
-        <div class="flex items-center gap-2 mb-3">
-          <label class="text-[10px] text-gray-500 uppercase tracking-wider">Rule #</label>
-          <input id="pg-rule-input" type="number" min="0" max="255" value="30"
-            class="w-20 bg-black/50 border border-white/10 rounded px-2 py-1 text-white font-mono text-sm focus:border-purple-500 focus:outline-none" />
-        </div>
-        <!-- 8 bit toggles (MSB left, LSB right) -->
-        <div class="flex items-center gap-1">
-          <span class="text-[9px] text-gray-600 mr-1">bits:</span>
-          {[7,6,5,4,3,2,1,0].map((bit) => (
-            <button data-bit={bit}
-              class="w-7 h-7 rounded text-[11px] font-mono font-bold text-white bg-gray-700 hover:opacity-80 transition-colors">
-              0
-            </button>
-          ))}
-        </div>
+    <!-- Top row: Rule picker + Transport -->
+    <div class="flex flex-wrap items-center gap-4 mb-4">
+      <!-- Rule display -->
+      <div class="flex items-baseline gap-2">
+        <span id="pg-rule-display" class="text-white font-bold font-mono text-2xl">Rule 30</span>
+        <span id="pg-binary-display" class="text-[10px] font-mono text-gray-500">00011110</span>
       </div>
+
+      <!-- Rule input -->
+      <div class="flex items-center gap-2">
+        <label class="text-[10px] text-gray-500 uppercase tracking-wider">Rule #</label>
+        <input id="pg-rule-input" type="number" min="0" max="255" value="30"
+          class="w-20 bg-black/50 border border-white/10 rounded px-2 py-1 text-white font-mono text-sm focus:border-purple-500 focus:outline-none" />
+      </div>
+
+      <!-- Bit toggles -->
+      <div class="flex items-center gap-1">
+        <span class="text-[9px] text-gray-600 mr-1">bits:</span>
+        {[7,6,5,4,3,2,1,0].map((bit) => (
+          <button data-bit={bit}
+            class="w-7 h-7 rounded text-[11px] font-mono font-bold text-white bg-gray-700 hover:opacity-80 transition-colors">
+            0
+          </button>
+        ))}
+      </div>
+
+      <!-- Spacer -->
+      <div class="flex-1"></div>
 
       <!-- Transport -->
       <div class="flex gap-2">
-        <button id="pg-play" class="flex-1 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold py-2.5 rounded-lg hover:opacity-90 transition-opacity">
+        <button id="pg-play" class="px-6 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold py-2 rounded-lg hover:opacity-90 transition-opacity">
           Play
         </button>
-        <button id="pg-pause" class="flex-1 bg-white/10 text-white font-bold py-2.5 rounded-lg hover:bg-white/20 transition-colors hidden">
+        <button id="pg-pause" class="px-6 bg-white/10 text-white font-bold py-2 rounded-lg hover:bg-white/20 transition-colors hidden">
           Pause
         </button>
-        <button id="pg-reset" class="px-4 bg-white/10 text-white font-bold py-2.5 rounded-lg hover:bg-white/20 transition-colors">
+        <button id="pg-reset" class="px-4 bg-white/10 text-white font-bold py-2 rounded-lg hover:bg-white/20 transition-colors">
           Reset
         </button>
       </div>
+    </div>
+
+    <!-- Bottom row: Settings -->
+    <div class="flex flex-wrap items-start gap-4">
 
       <!-- Speed -->
-      <div class="bg-white/[0.05] border border-white/10 rounded-xl p-4">
-        <div class="flex justify-between mb-2">
+      <div class="bg-white/[0.05] border border-white/10 rounded-xl p-3 flex-1 min-w-[150px]">
+        <div class="flex justify-between mb-1.5">
           <label class="text-[10px] text-gray-500 uppercase tracking-wider">Speed</label>
           <span id="pg-speed-label" class="text-sm text-white font-mono">3</span>
         </div>
@@ -66,44 +77,42 @@
       </div>
 
       <!-- Cell size -->
-      <div class="bg-white/[0.05] border border-white/10 rounded-xl p-4">
-        <div class="flex justify-between mb-2">
-          <label class="text-[10px] text-gray-500 uppercase tracking-wider">Cell Size</label>
-        </div>
-        <select id="pg-cell-size" class="w-full bg-black/50 border border-white/10 rounded px-2 py-1.5 text-white font-mono text-sm focus:border-purple-500 focus:outline-none">
+      <div class="bg-white/[0.05] border border-white/10 rounded-xl p-3 min-w-[120px]">
+        <label class="text-[10px] text-gray-500 uppercase tracking-wider block mb-1.5">Cell Size</label>
+        <select id="pg-cell-size" class="w-full bg-black/50 border border-white/10 rounded px-2 py-1 text-white font-mono text-sm focus:border-purple-500 focus:outline-none">
           <option value="1">1px</option>
           <option value="2">2px</option>
           <option value="4">4px</option>
         </select>
       </div>
 
-      <!-- Color controls -->
-      <div class="bg-white/[0.05] border border-white/10 rounded-xl p-4">
-        <label class="text-[10px] text-gray-500 uppercase tracking-wider block mb-3">Colors</label>
-        <div class="flex gap-2 mb-3">
+      <!-- Colors -->
+      <div class="bg-white/[0.05] border border-white/10 rounded-xl p-3 flex-1 min-w-[250px]">
+        <label class="text-[10px] text-gray-500 uppercase tracking-wider block mb-2">Colors</label>
+        <div class="flex gap-2 mb-2">
           {['rainbow', 'fire', 'ice', 'mono'].map((p) => (
             <button data-palette={p}
-              class="flex-1 text-[10px] font-mono capitalize py-1.5 rounded-lg border border-white/10 text-gray-300 hover:text-white transition-colors">
+              class="flex-1 text-[10px] font-mono capitalize py-1 rounded-lg border border-white/10 text-gray-300 hover:text-white transition-colors">
               {p}
             </button>
           ))}
         </div>
-        <div class="space-y-2">
-          <div class="flex items-center gap-2">
-            <label class="text-[10px] text-gray-500 w-12">Sat</label>
+        <div class="flex gap-4">
+          <div class="flex items-center gap-2 flex-1">
+            <label class="text-[10px] text-gray-500">Sat</label>
             <input id="pg-saturation" type="range" min="0" max="100" value="60" class="flex-1 accent-purple-500" />
           </div>
-          <div class="flex items-center gap-2">
-            <label class="text-[10px] text-gray-500 w-12">Light</label>
+          <div class="flex items-center gap-2 flex-1">
+            <label class="text-[10px] text-gray-500">Light</label>
             <input id="pg-lightness" type="range" min="0" max="100" value="35" class="flex-1 accent-purple-500" />
           </div>
         </div>
       </div>
 
       <!-- Initial conditions -->
-      <div class="bg-white/[0.05] border border-white/10 rounded-xl p-4">
-        <label class="text-[10px] text-gray-500 uppercase tracking-wider block mb-3">Initial State</label>
-        <div class="grid grid-cols-2 gap-2">
+      <div class="bg-white/[0.05] border border-white/10 rounded-xl p-3 min-w-[200px]">
+        <label class="text-[10px] text-gray-500 uppercase tracking-wider block mb-2">Initial State</label>
+        <div class="grid grid-cols-2 gap-1.5">
           {[
             { id: 'center', label: 'Center Cell' },
             { id: 'random', label: 'Random 50%' },
@@ -111,7 +120,7 @@
             { id: 'draw', label: 'Draw Mode' },
           ].map(({ id, label }) => (
             <button data-condition={id}
-              class="text-[10px] font-mono py-1.5 rounded-lg border border-white/10 text-gray-300 hover:text-white transition-colors">
+              class="text-[10px] font-mono py-1 rounded-lg border border-white/10 text-gray-300 hover:text-white transition-colors">
               {label}
             </button>
           ))}
