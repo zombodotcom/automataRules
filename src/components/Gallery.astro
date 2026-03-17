@@ -1,0 +1,68 @@
+---
+import { INTERESTING_RULES, FAMOUS_RULES, ruleToBinary } from '../lib/automata-engine';
+
+const famousRuleNumbers = Object.keys(FAMOUS_RULES).map(Number);
+const otherRules = INTERESTING_RULES.filter((r) => !famousRuleNumbers.includes(r));
+---
+
+<section id="gallery" class="relative py-24 px-6 max-w-7xl mx-auto">
+  <h2 class="text-3xl md:text-4xl font-black text-white text-center mb-3">
+    Rule Gallery
+  </h2>
+  <p class="text-gray-400 text-center mb-12 max-w-xl mx-auto">
+    Each rule number (0–255) produces a unique pattern from the same simple process. Click any rule to try it in the playground.
+  </p>
+
+  <!-- Famous rules (large cards) -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+    {famousRuleNumbers.map((rule) => {
+      const info = FAMOUS_RULES[rule];
+      return (
+        <button data-load-rule={rule}
+          class="group text-left bg-white/[0.05] border border-white/10 rounded-xl overflow-hidden hover:border-purple-500/40 transition-all duration-300 hover:scale-[1.02]">
+          <canvas
+            data-rule-thumbnail={rule}
+            data-thumb-width="300"
+            data-thumb-height="150"
+            class="w-full h-[150px]"
+            style="image-rendering: pixelated;"
+          ></canvas>
+          <div class="p-4">
+            <div class="flex items-baseline gap-2 mb-1">
+              <span class="text-white font-bold font-mono text-lg">{info.name}</span>
+              <span class="text-[10px] font-mono text-purple-400 bg-purple-500/10 px-1.5 py-0.5 rounded">Class {info.class}</span>
+            </div>
+            <p class="text-gray-400 text-sm">{info.description}</p>
+            <div class="text-[10px] font-mono text-gray-600 mt-2">{ruleToBinary(rule)}</div>
+          </div>
+        </button>
+      );
+    })}
+  </div>
+
+  <!-- Other interesting rules (smaller grid) -->
+  <h3 class="text-lg font-bold text-white mb-4">More Interesting Rules</h3>
+  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+    {otherRules.map((rule) => (
+      <button data-load-rule={rule}
+        class="group text-left bg-white/[0.05] border border-white/10 rounded-lg overflow-hidden hover:border-purple-500/40 transition-all duration-300 hover:scale-[1.02]">
+        <canvas
+          data-rule-thumbnail={rule}
+          data-thumb-width="120"
+          data-thumb-height="80"
+          class="w-full h-[80px]"
+          style="image-rendering: pixelated;"
+        ></canvas>
+        <div class="p-2">
+          <span class="text-white font-bold font-mono text-sm">Rule {rule}</span>
+          <div class="text-[9px] font-mono text-gray-600">{ruleToBinary(rule)}</div>
+        </div>
+      </button>
+    ))}
+  </div>
+</section>
+
+<script>
+  import { initGalleryThumbnails } from './gallery-thumbnails';
+  initGalleryThumbnails();
+</script>
