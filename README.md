@@ -1,0 +1,2 @@
+# automataRules
+automata ruels site
